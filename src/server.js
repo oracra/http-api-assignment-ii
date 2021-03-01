@@ -35,9 +35,9 @@ const handlePost = (request, response, parsedUrl) => {
 
     request.on('end', () => {
       const bodyString = Buffer.concat(body).toString();
-      const bodyPraams = query.parse(bodyString);
-
-      jsonHandler.addUser(request, response, bodyPraams);
+      const bodyParams = query.parse(bodyString);
+      console.dir(bodyParams);
+      jsonHandler.addUser(request, response, bodyParams);
     });
   }
 };
@@ -45,10 +45,11 @@ const handlePost = (request, response, parsedUrl) => {
 const onRequest = (request, response) => {
   const parsedUrl = url.parse(request.url);
   console.dir(parsedUrl.pathname);
-  console.dir(request.method);
-  console.dir(urlStruct[request.method]);
+  //console.dir("Method" + request.method);
 
   if (request.method === 'POST') {
+    console.dir("Method" + request.method);
+
     handlePost(request, response, parsedUrl);
   } else if (urlStruct[request.method][parsedUrl.pathname]) {
     urlStruct[request.method][parsedUrl.pathname](request, response);

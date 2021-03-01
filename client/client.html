@@ -29,13 +29,15 @@
 
         content.innerHTML += `<p>${xhr.response}</p>`
       }else{
-        contnet.innerHTML += '<p>Meta Data Received</p>';
+        content.innerHTML += '<p>Meta Data Received</p>';
       }
     };
 
     const requestUpdate = (e, userForm) => {
-      const url = userForm.querySelctor('#urlField').value;
-      const method = userForm.querySelctor('#methodSelect').value;
+      e.preventDefault();
+
+      const url = userForm.querySelector('#urlField').value;
+      const method = userForm.querySelector('#methodSelect').value;
 
       const xhr = new XMLHttpRequest();
       xhr.open(method, url);
@@ -50,7 +52,6 @@
       }
       xhr.send();
 
-      e.preventDefault();
       return false;
 
     };
@@ -61,8 +62,8 @@
       const nameAction = nameForm.getAttribute('action');
       const nameMethod = nameForm.getAttribute('method');
 
-      const nameField = nameForm.querySelctor("#nameField");
-      const ageField = nameForm.querySelctor("#ageField");
+      const nameField = nameForm.querySelector("#nameField");
+      const ageField = nameForm.querySelector("#ageField");
 
       const xhr = new XMLHttpRequest();
       xhr.open(nameMethod, nameAction);
@@ -72,7 +73,7 @@
 
       xhr.onload = () => handleResponse(xhr);
 
-      const formDate = `name=${nameField.value}$age=${ageField.value}`;
+      const formData = `name=${nameField.value}&age=${ageField.value}`;
       xhr.send(formData);
 
       return false;
@@ -80,8 +81,8 @@
 
     const init = () => {
       const nameForm = document.querySelector("#nameForm");
-      const userForm = document.querySelctor("#userForm");
-      const getUsers = (e) => requestUpdate();
+      const userForm = document.querySelector("#userForm");
+      const getUsers = (e) => requestUpdate(e, userForm);
       const addUser = (e) => sendPost(e, nameForm);
 
       userForm.addEventListener('submit', getUsers);
